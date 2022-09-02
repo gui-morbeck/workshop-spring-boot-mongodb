@@ -1,7 +1,9 @@
 package com.centrooleo.workshopmongo.config;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +28,9 @@ public class Instantiation implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
 		userRepository.deleteAll();
 		postRepository.deleteAll();
 		
@@ -35,8 +40,8 @@ public class Instantiation implements CommandLineRunner{
 		
 		userRepository.saveAll(Arrays.asList(maria, alex, bob));		
 		
-		Post post1 = new Post(null, Instant.now(), "Partiu viagem", "Vou viajar p SP!", new AuthorDTO(maria));
-		Post post2 = new Post(null, Instant.now(), "Bom dia!", "Acordei feliz hoje.", new AuthorDTO(maria));
+		Post post1 = new Post(null, sdf.parse("2018-03-21"), "Partiu viagem", "Vou viajar p SP!", new AuthorDTO(maria));
+		Post post2 = new Post(null, sdf.parse("2018-03-23"), "Bom dia!", "Acordei feliz hoje.", new AuthorDTO(maria));
 		
 		postRepository.saveAll(Arrays.asList(post1, post2));
 		
